@@ -43,8 +43,6 @@ import java.util.*;
          }
          if (!flag) {
              contactDetails.add(personDetails);
-
-
              storePersonByCity((String) personDetails.getCity(), personDetails);//call store person details by city name
              storePersonByState((String) personDetails.getState(), personDetails);//call store person details by state name
          } else {
@@ -331,7 +329,9 @@ import java.util.*;
                  case 1:
                      searchPersonCity();
                      break;
-
+                 case 2:
+                     searchPersonState();
+                     break;
 
              }
          } while (choice != 0);
@@ -359,15 +359,14 @@ import java.util.*;
          String city = input.next();
          dictAddressBook.values().forEach(book -> book.contactDetails.stream().filter(person -> person.getCity().equals(city.toLowerCase())).forEach(System.out::println));
      }
+
+     public static void searchPersonState() {
+         System.out.println("Enter State name");
+         String state = input.next();
+         dictAddressBook.values().forEach(book -> book.contactDetails.stream().filter(person -> person.getState().equals(state.toLowerCase())).forEach(System.out::println));
+     }
+
  }
-
-
-
-
-
-
-
-
 
 
 
