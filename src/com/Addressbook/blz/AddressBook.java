@@ -43,6 +43,8 @@ import java.util.*;
          }
          if (!flag) {
              contactDetails.add(personDetails);
+
+
              storePersonByCity((String) personDetails.getCity(), personDetails);//call store person details by city name
              storePersonByState((String) personDetails.getState(), personDetails);//call store person details by state name
          } else {
@@ -159,10 +161,206 @@ import java.util.*;
                          break;
                  }
              } while (choice != 0);
+
+
+         } else {
+             System.out.println("First name doesn't exist");
          }
      }
 
+     public void deleteContactDetail(String firstName) {
+         boolean flag = false;
+         if (contactDetails.isEmpty()) {
+             System.out.println("------NO RECORDS------");
+             return;
+         }
+         for (Contacts objPerson : contactDetails) {
+             if (objPerson.getFirstName().equals(firstName)) {
+                 contactDetails.remove(objPerson);
+                 flag = true;
+                 break;
+             }
+         }
+         if (flag) {
+             System.out.println("Record Deleted..");
+         } else {
+             System.out.println("First name doesn't exist");
+         }
+     }
 
-}
+     //display contact details
+     public void displayContactDetails() {
+         if (contactDetails.isEmpty()) {//check list are empty or not
+             System.out.println("------NO RECORDS------");
+             return;
+         }
+         System.out.println("do want to sort contacts on specific details");
+         System.out.println("1. Name \t 2. City \t 3. State \t 4. Zip");
+         int ch = input.nextInt();
+         switch (ch) {
+             case 2:
+                 contactDetails.stream().sorted(Comparator.comparing(Contacts::getCity)).forEach(System.out::println);
+                 break;
+             case 3:
+                 contactDetails.stream().sorted(Comparator.comparing(Contacts::getState)).forEach(System.out::println);
+                 break;
+             case 4:
+                 contactDetails.stream().sorted(Comparator.comparing(Contacts::getZipCode)).forEach(System.out::println);
+                 break;
+             default:
+                 contactDetails.stream().sorted(Comparator.comparing(Contacts::getFirstName)).forEach(System.out::println);
+                 break;
+         }
+     }
+
+     public static String inputString(String message) {
+         System.out.println(message);
+         return input.next().toLowerCase();
+     }
+
+     public static int inputInteger(String message) {
+         System.out.println(message);
+         return input.nextInt();
+     }
+
+   /* public static char inputChar(String message) {
+        System.out.println(message);
+        return input.next().toUpperCase().charAt(0);
+    }*/
+
+     public static void displayBooks() {
+         for (String books : dictAddressBook.keySet()) {
+             if (dictAddressBook.isEmpty())
+                 System.out.println("Please Add Some Address Book");
+             else
+                 System.out.println("The Available Books are : ");
+             System.out.println(books);
+         }
+     }
+
+     public static void displayNames(AddressBook addressBook) {
+         System.out.print("First Names: ");
+         for (Contacts objPerson : contactDetails
+         ) {
+             System.out.print(objPerson.getFirstName() + ", ");
+         }
+         System.out.println();
+     }
+
+     public static void userOperation(String bookName, AddressBook addressBook) throws IOException {
+         int choice;
+         do {
+             System.out.println("--------------------------");
+             System.out.println("Accessing: " + bookName);
+             System.out.println("1. Add Person Details\n2. Display Details\n3. Edit Detail\n4. Delete Detail\n0. Exit");
+             choice = inputInteger("Enter Choice: ");
+             switch (choice) {
+                 case 1:
+                     assert addressBook != null;
+                     addressBook.addContactDetail();
+                     break;
+                 case 2:
+                     addressBook.displayContactDetails();
+                     break;
+                 case 3:
+                     displayNames(addressBook);
+                     String fNameEdit = inputString("Enter First Name: ");
+                     addressBook.editContactDetail(fNameEdit);
+                     break;
+                 case 4:
+                     String fNameDelete = inputString("Enter First Name to delete: ");
+                     addressBook.deleteContactDetail(fNameDelete);
+                     break;
+                 case 0:
+                     break;
+                 default:
+                     System.out.println("Invalid input...");
+             }
+         } while (choice != 0);
+     }
+
+     public static void addressBookMenu() throws IOException {
+         int ch;
+         System.out.println("Welcome to Address Book");
+         do {
+             String bookName = "";
+             AddressBook addressBook = new AddressBook();
+             ch = inputInteger("1. Create New book\n2. Edit Existing book\n" +
+                     "3. Edit AddressBook \n4. Display Books \n5. Search Options \n(0 to Close)");
+             switch (ch) {
+                 case 1:
+                     bookName = inputString("Enter New Address Book Name: ");
+                     dictAddressBook.put(bookName, addressBook);
+                     userOperation(bookName, addressBook);
+                     break;
+
+                 case 2:
+                     if (!dictAddressBook.isEmpty()) {
+                         displayBooks();
+                         bookName = inputString("Enter Address Book Name to Access: ");
+                         addressBook = dictAddressBook.get(bookName);
+                         userOperation(bookName, addressBook);
+                     } else {
+                         System.out.println("No Address Books are present");
+                     }
+                     break;
+                 case 3:
+                     if (!dictAddressBook.isEmpty()) {
+                         String personName = inputString("Enter Person Name to edit: ");
+                         editGlobalContact(personName);
+                     } else {
+                         System.out.println("No Address Books are present");
+                     }
+                     break;
+                 case 4:
+                     displayBooks();
+                 case 5:
+                     SearchOption();
+             }
+         } while (ch != 0);
+     }
+
+     private static void SearchOption() {
+         int choice;
+         do {
+             System.out.println("Please Enter the Option ");
+             System.out.println("1. Search By City \n2. Search By State \n3. View By City \n4. View By State \n5. Count by City \n6. Count by State \n(0 to Close)");
+             choice = input.nextInt();
+
+             switch (choice) {
+
+
+             }
+         } while (choice != 0);
+     }
+
+     public static void editGlobalContact(String personName) {
+         boolean flag = false;
+         for (AddressBook addressBook : dictAddressBook.values()) {
+             for (Contacts listContactDetail : contactDetails
+             ) {
+                 if (listContactDetail.getFirstName().equals(personName)) {
+                     flag = true;
+                     break;
+                 }
+             }
+             if (flag) {
+                 addressBook.editContactDetail(personName);
+                 break;
+             }
+         }
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
 
 
