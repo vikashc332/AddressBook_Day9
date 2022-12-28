@@ -339,6 +339,21 @@ import java.util.*;
                      String city = input.next();
                      viewPersonCity(city);
                      break;
+                 case 4:
+                     System.out.println("Enter State name");
+                     String state = input.next();
+                     viewPersonState(state);
+                     break;
+                 case 5:
+                     System.out.println("Enter city name");
+                     String cityToCount = input.next();
+                     countPersonByCity(cityToCount);
+                     break;
+                 case 6:
+                     System.out.println("Enter state name");
+                     String stateToCount = input.next();
+                     countPersonByState(stateToCount);
+                     break;
 
 
              }
@@ -376,7 +391,25 @@ import java.util.*;
          ArrayList<Contacts> personDetails = (ArrayList<Contacts>) dictCity.get(city);
          personDetails.stream().forEach(System.out::println);
      }
+     public static void viewPersonState(String state) {
+
+         ArrayList<Contacts> personDetails = (ArrayList<Contacts>) dictState.get(state);
+         personDetails.stream().forEach(System.out::println);
+     }
+
+     public static void countPersonByCity(String city) {
+         dictAddressBook.values().forEach(book -> book.contactDetails.stream().filter(person -> person.getState().equals(city.toLowerCase())).count());
+         long count = contactDetails.stream().sorted(Comparator.comparing(Contacts::getState)).count();
+         System.out.println("The Count of State is : " + count + " " + city);
+     }
+
+     public static void countPersonByState(String state) {
+         dictAddressBook.values().forEach(book -> book.contactDetails.stream().filter(person -> person.getState().equals(state.toLowerCase())).count());
+         long count = contactDetails.stream().sorted(Comparator.comparing(Contacts::getState)).count();
+         System.out.println("The Count of State is : " + count + " " + state);
+     }
  }
+
 
 
 
