@@ -334,6 +334,11 @@ import java.util.*;
                  case 2:
                      searchPersonState();
                      break;
+                 case 3:
+                     System.out.println("Enter City name");
+                     String city = input.next();
+                     viewPersonCity(city);
+                     break;
 
 
              }
@@ -366,6 +371,10 @@ import java.util.*;
          System.out.println("Enter State name");
          String state = input.next();
          dictAddressBook.values().forEach(book -> book.contactDetails.stream().filter(person -> person.getState().equals(state.toLowerCase())).forEach(System.out::println));
+     }
+     public static void viewPersonCity(String city) {
+         ArrayList<Contacts> personDetails = (ArrayList<Contacts>) dictCity.get(city);
+         personDetails.stream().forEach(System.out::println);
      }
  }
 
