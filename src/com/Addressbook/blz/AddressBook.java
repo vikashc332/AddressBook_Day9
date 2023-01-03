@@ -2,8 +2,7 @@ package com.Addressbook.blz;
 
 import java.io.IOException;
 import java.util.*;
-
- public class AddressBook {
+public class AddressBook {
      static List<Contacts> contactDetails = new ArrayList<>();
      static Scanner input = new Scanner(System.in);
      static HashMap<String, AddressBook> dictAddressBook = new HashMap<>();
@@ -43,6 +42,7 @@ import java.util.*;
          }
          if (!flag) {
              contactDetails.add(personDetails);
+             FileIO.write(contactDetails);
 
 
              storePersonByCity((String) personDetails.getCity(), personDetails);//call store person details by city name
@@ -160,6 +160,7 @@ import java.util.*;
                          System.out.println("invalid option....");
                          break;
                  }
+                 FileIO.write(contactDetails);
              } while (choice != 0);
 
 
@@ -177,6 +178,7 @@ import java.util.*;
          for (Contacts objPerson : contactDetails) {
              if (objPerson.getFirstName().equals(firstName)) {
                  contactDetails.remove(objPerson);
+                 FileIO.write(contactDetails);
                  flag = true;
                  break;
              }
@@ -286,7 +288,8 @@ import java.util.*;
              String bookName = "";
              AddressBook addressBook = new AddressBook();
              ch = inputInteger("1. Create New book\n2. Edit Existing book\n" +
-                     "3. Edit AddressBook \n4. Display Books \n5. Search Options \n(0 to Close)");
+                     "3. Edit AddressBook \n4. Display Books \n5. Search Options " +
+                     "\n6. Read Data From File  \n(0 to Close)");
              switch (ch) {
                  case 1:
                      bookName = inputString("Enter New Address Book Name: ");
@@ -314,8 +317,14 @@ import java.util.*;
                      break;
                  case 4:
                      displayBooks();
+                     break;
                  case 5:
                      SearchOption();
+                     break;
+                 case 6:
+                     FileIO.printData();
+                     break;
+
              }
          } while (ch != 0);
      }
